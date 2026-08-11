@@ -23,7 +23,7 @@ FILES=(
     config.json metrics.json
 )
 
-HF_REPO="keep-calm/keep-calm-models"
+HF_REPO="elchief84/keep-calm-models"
 GH_REPO="keep-calm/keep-calm"
 GH_TAG="${KEEP_CALM_MODELS_TAG:-v0.1.0-models}"
 
