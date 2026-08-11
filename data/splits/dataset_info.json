@@ -1,0 +1,38 @@
+{
+  "total": 13329,
+  "train": 9330,
+  "val": 1999,
+  "test": 2000,
+  "risk_distribution": {
+    "none": 3817,
+    "low": 3960,
+    "medium": 2874,
+    "high": 2014,
+    "critical": 664
+  },
+  "intent_distribution": {
+    "informational": 2014,
+    "constructive": 3958,
+    "critical": 6910,
+    "personal": 447
+  },
+  "tone_labels": [
+    "neutral",
+    "frustrated",
+    "hostile",
+    "sarcastic",
+    "positive"
+  ],
+  "intent_labels": [
+    "constructive",
+    "critical",
+    "personal",
+    "informational"
+  ],
+  "sources": {
+    "youtube": 4405,
+    "github_issue": 53,
+    "github_comment": 455,
+    "openai_generated": 8416
+  }
+}

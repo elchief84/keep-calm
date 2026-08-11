@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data — track annotated datasets, ignore generated artifacts
+data/raw/
+data/processed/
+data/annotated/
+data/models/
+data/results/
+data/*log*.txt
+data/*_checkpoint.json
+
+# Models
+models/
+*.onnx
+*.pt
+*.bin
+*.safetensors
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+wandb/
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/

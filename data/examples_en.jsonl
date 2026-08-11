@@ -1,0 +1,25 @@
+{"id": "en-01", "text": "Thanks for the detailed explanation, really helpful.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "en-02", "text": "I disagree with this approach. Here's why.", "expected_risk": 0.10, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "constructive"}
+{"id": "en-03", "text": "Can you clarify what you meant by the third point?", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "informational"}
+{"id": "en-04", "text": "This approach has significant problems that need to be addressed.", "expected_risk": 0.20, "expected_level": "low", "expected_tones": ["neutral"], "expected_intent": "critical"}
+{"id": "en-05", "text": "I'm not sure this is going to work the way you think.", "expected_risk": 0.25, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "en-06", "text": "We've discussed this three times already. Can we move forward?", "expected_risk": 0.35, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "en-07", "text": "I'm really frustrated with how this is going, to be honest.", "expected_risk": 0.40, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "en-08", "text": "This is a waste of time. Nothing has changed since last week.", "expected_risk": 0.55, "expected_level": "medium", "expected_tones": ["frustrated", "hostile"], "expected_intent": "critical"}
+{"id": "en-09", "text": "As I'm sure you're aware, this was addressed three months ago.", "expected_risk": 0.60, "expected_level": "medium", "expected_tones": ["sarcastic", "hostile"], "expected_intent": "critical"}
+{"id": "en-10", "text": "Great job as always...", "expected_risk": 0.65, "expected_level": "medium", "expected_tones": ["sarcastic"], "expected_intent": "personal"}
+{"id": "en-11", "text": "You clearly don't understand the problem.", "expected_risk": 0.70, "expected_level": "high", "expected_tones": ["hostile"], "expected_intent": "personal"}
+{"id": "en-12", "text": "I'm not surprised you couldn't figure this out.", "expected_risk": 0.75, "expected_level": "high", "expected_tones": ["hostile", "sarcastic"], "expected_intent": "personal"}
+{"id": "en-13", "text": "You are completely incompetent.", "expected_risk": 0.95, "expected_level": "critical", "expected_tones": ["hostile"], "expected_intent": "personal"}
+{"id": "en-14", "text": "Maybe you should stop commenting and let someone who knows what they're doing handle this.", "expected_risk": 0.90, "expected_level": "critical", "expected_tones": ["hostile"], "expected_intent": "personal"}
+{"id": "en-15", "text": "are you serious right now", "expected_risk": 0.55, "expected_level": "medium", "expected_tones": ["frustrated", "sarcastic"], "expected_intent": "critical"}
+{"id": "en-16", "text": "fine. whatever.", "expected_risk": 0.45, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "personal"}
+{"id": "en-17", "text": "I really appreciate the effort you put into this. Let me share some thoughts on how we can make it even better.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "en-18", "text": "Your point about caching is valid, but I think we need to reconsider the serialization approach.", "expected_risk": 0.15, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "constructive"}
+{"id": "en-19", "text": "The deadline is tomorrow and we haven't even started the integration tests yet.", "expected_risk": 0.30, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "informational"}
+{"id": "en-20", "text": "lol ok", "expected_risk": 0.20, "expected_level": "low", "expected_tones": ["neutral"], "expected_intent": "informational"}
+{"id": "en-21", "text": "This is the third time this bug has been reopened. Someone needs to actually fix it properly.", "expected_risk": 0.50, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "en-22", "text": "I understand you're frustrated, and I want to find a solution that works for everyone.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "en-23", "text": "Per my last email, as previously stated multiple times...", "expected_risk": 0.55, "expected_level": "medium", "expected_tones": ["sarcastic", "frustrated"], "expected_intent": "critical"}
+{"id": "en-24", "text": "Honestly, I don't think this team is capable of delivering on time.", "expected_risk": 0.80, "expected_level": "high", "expected_tones": ["hostile", "frustrated"], "expected_intent": "personal"}
+{"id": "en-25", "text": "Could we try a different approach? I think pairing on this might help.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
