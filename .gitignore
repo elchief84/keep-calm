@@ -51,3 +51,6 @@ wandb/
 .coverage
 htmlcov/
 .pytest_cache/
+
+# App feedback (anonymous, generated at runtime)
+feedback.jsonl
