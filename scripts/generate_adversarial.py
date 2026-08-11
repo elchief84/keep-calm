@@ -13,13 +13,12 @@ Output: data/adversarial_en.jsonl + data/adversarial_it.jsonl with AUTO-ANNOTATE
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import time
-import hashlib
 from pathlib import Path
 
 import requests
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_EN = PROJECT_ROOT / "data" / "adversarial_en.jsonl"

@@ -1,5 +1,7 @@
 from enum import Enum
 
+from pydantic import BaseModel, Field
+
 
 class RiskLevel(str, Enum):
     NONE = "none"
@@ -22,9 +24,6 @@ class Intent(str, Enum):
     CRITICAL = "critical"
     PERSONAL = "personal"
     INFORMATIONAL = "informational"
-
-
-from pydantic import BaseModel, Field
 
 
 class ToneResult(BaseModel):

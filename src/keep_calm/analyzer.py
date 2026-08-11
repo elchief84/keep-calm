@@ -209,30 +209,50 @@ class KeepCalmAnalyzer:
 
         # Risk model
         self.risk_encoder = AutoModel.from_pretrained(MODEL_NAME)
-        self.risk_head = nn.Sequential(nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 1), nn.Sigmoid())
-        self.risk_encoder.load_state_dict(torch.load(models_dir / "risk_encoder.pt", map_location="cpu", weights_only=True))
-        self.risk_head.load_state_dict(torch.load(models_dir / "risk_head.pt", map_location="cpu", weights_only=True))
+        self.risk_head = nn.Sequential(
+            nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 1), nn.Sigmoid()
+        )
+        self.risk_encoder.load_state_dict(
+            torch.load(models_dir / "risk_encoder.pt", map_location="cpu", weights_only=True)
+        )
+        self.risk_head.load_state_dict(
+            torch.load(models_dir / "risk_head.pt", map_location="cpu", weights_only=True)
+        )
         self.risk_encoder.eval()
         self.risk_head.eval()
 
         # Tone model
         self.tone_encoder = AutoModel.from_pretrained(MODEL_NAME)
-        self.tone_head = nn.Sequential(nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 5), nn.Sigmoid())
-        self.tone_encoder.load_state_dict(torch.load(models_dir / "tone_encoder.pt", map_location="cpu", weights_only=True))
-        self.tone_head.load_state_dict(torch.load(models_dir / "tone_head.pt", map_location="cpu", weights_only=True))
+        self.tone_head = nn.Sequential(
+            nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 5), nn.Sigmoid()
+        )
+        self.tone_encoder.load_state_dict(
+            torch.load(models_dir / "tone_encoder.pt", map_location="cpu", weights_only=True)
+        )
+        self.tone_head.load_state_dict(
+            torch.load(models_dir / "tone_head.pt", map_location="cpu", weights_only=True)
+        )
         self.tone_encoder.eval()
         self.tone_head.eval()
 
         # Intent model
         self.intent_encoder = AutoModel.from_pretrained(MODEL_NAME)
-        self.intent_head = nn.Sequential(nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 4))
-        self.intent_encoder.load_state_dict(torch.load(models_dir / "intent_encoder.pt", map_location="cpu", weights_only=True))
-        self.intent_head.load_state_dict(torch.load(models_dir / "intent_head.pt", map_location="cpu", weights_only=True))
+        self.intent_head = nn.Sequential(
+            nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 4)
+        )
+        self.intent_encoder.load_state_dict(
+            torch.load(models_dir / "intent_encoder.pt", map_location="cpu", weights_only=True)
+        )
+        self.intent_head.load_state_dict(
+            torch.load(models_dir / "intent_head.pt", map_location="cpu", weights_only=True)
+        )
         self.intent_encoder.eval()
         self.intent_head.eval()
 
     def analyze(self, text: str) -> AnalysisResult:
-        enc = self.tokenizer(text, truncation=True, padding="max_length", max_length=256, return_tensors="pt")
+        enc = self.tokenizer(
+            text, truncation=True, padding="max_length", max_length=256, return_tensors="pt"
+        )
         ids, mask = enc["input_ids"], enc["attention_mask"]
 
         with torch.no_grad():

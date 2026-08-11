@@ -1,7 +1,11 @@
 """Generate idiomatic/vulgar expressions in IT and EN for Keep Calm training."""
 
-import json, hashlib, time, requests
+import hashlib
+import json
+import time
 from pathlib import Path
+
+import requests
 
 API_KEY = "YOUR_OPENAI_API_KEY"
 
@@ -68,7 +72,7 @@ for lang, output in [("en", OUTPUTS["en"]), ("it", OUTPUTS["it"])]:
                             "metadata": {"category": cat},
                             "annotations": {"communication_risk": None, "tones": [], "intent": None, "explanation": None, "needs_attention": None},
                         })
-            except Exception as e:
+            except Exception:
                 print("ERR", end=" ")
                 time.sleep(2)
             if batch < 4:

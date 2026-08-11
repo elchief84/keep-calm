@@ -16,16 +16,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import sys
 import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
@@ -192,10 +190,7 @@ class YouTubeScraper:
         if len(text) > MAX_COMMENT_LENGTH:
             return False
         text_lower = text.lower()
-        for pattern in BLOCKED_PATTERNS:
-            if pattern in text_lower:
-                return False
-        return True
+        return all(pattern not in text_lower for pattern in BLOCKED_PATTERNS)
 
 
 # ---- Data pipeline ----
@@ -307,10 +302,7 @@ def main() -> None:
         print(f"Quota used so far: {scraper.quota_used}")
 
         videos = scraper.search_videos(cfg)
-        if args.max_videos:
-            videos = videos[: args.max_videos]
-        else:
-            videos = videos[: cfg.max_videos]
+        videos = videos[:args.max_videos] if args.max_videos else videos[:cfg.max_videos]
 
         for video in videos:
             print(f"  Video: {video['title'][:80]}... ({video['video_id']})")
@@ -319,7 +311,7 @@ def main() -> None:
                 comments = scraper.get_comments(video["video_id"], mc)
             except HttpError as e:
                 if "quotaExceeded" in str(e):
-                    print(f"\nQuota exceeded! Saving progress...")
+                    print("\nQuota exceeded! Saving progress...")
                     save_checkpoint({
                         "completed_queries": list(completed_queries),
                         "quota_used": scraper.quota_used,

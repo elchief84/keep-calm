@@ -16,8 +16,7 @@ import torch.nn as nn
 from scipy.stats import pearsonr
 from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error
 from torch.utils.data import DataLoader, Dataset
-from transformers import AutoTokenizer, AutoModel
-
+from transformers import AutoModel, AutoTokenizer
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SPLITS_DIR = PROJECT_ROOT / "data" / "splits"
@@ -117,7 +116,7 @@ def train_risk(data, tokenizer):
 
     mae = mean_absolute_error(actual, preds)
     r = pearsonr(actual, preds)[0]
-    la = sum(1 for a, b in zip(map(to_level, actual), map(to_level, preds)) if abs(a-b) <= 1) / len(actual)
+    la = sum(1 for a, b in zip(map(to_level, actual), map(to_level, preds), strict=False) if abs(a-b) <= 1) / len(actual)
     print(f"  Test: MAE={mae:.4f} r={r:.4f} LevelAcc={la:.2%} ({time.time()-t0:.0f}s)")
     return model, head, {"mae": mae, "pearson_r": r, "level_acc": la}
 

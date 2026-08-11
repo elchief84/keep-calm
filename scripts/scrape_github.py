@@ -8,13 +8,12 @@ Output: data/github_en.jsonl
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
-import hashlib
 from pathlib import Path
 
 import requests
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = PROJECT_ROOT / "data" / "github_en.jsonl"
