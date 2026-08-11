@@ -21,11 +21,14 @@ FILES = [
 @st.cache_resource
 def load_analyzer():
     if not all((MODELS_DIR / f).exists() for f in FILES):
-        import subprocess
-        status = st.status("Downloading models (one-time, ~500MB) ...")
-        with contextlib.suppress(subprocess.CalledProcessError):
-            subprocess.run(["bash", "scripts/download_models.sh"], check=True, capture_output=True)
-        status.update(label="Models")
+        st.info("Downloading models (one-time, ~500MB) ...")
+        from huggingface_hub import snapshot_download
+        with contextlib.suppress(Exception):
+            snapshot_download(
+                "elchief84/keep-calm-models",
+                local_dir=str(MODELS_DIR),
+                local_dir_use_symlinks=False,
+            )
     from keep_calm.analyzer import KeepCalmAnalyzer
     return KeepCalmAnalyzer()
 
@@ -57,7 +60,7 @@ if st.button("Analyze", type="primary", use_container_width=True):
     elif analyzer is None:
         st.error(
             "Models not found. Make sure models are on Hugging Face Hub "
-            "(`keep-calm/keep-calm-models`) or in `data/models/`."
+            "(`elchief84/keep-calm-models`) or in `data/models/`."
         )
     else:
         result = analyzer.analyze(msg)
