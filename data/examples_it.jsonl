@@ -1,0 +1,30 @@
+{"id": "it-01", "text": "Grazie per la spiegazione dettagliata, molto utile.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "it-02", "text": "Non sono d'accordo con questo approccio. Ti spiego perché.", "expected_risk": 0.10, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "constructive"}
+{"id": "it-03", "text": "Puoi chiarire cosa intendevi al terzo punto?", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "informational"}
+{"id": "it-04", "text": "Questo approccio ha dei problemi significativi da affrontare.", "expected_risk": 0.20, "expected_level": "low", "expected_tones": ["neutral"], "expected_intent": "critical"}
+{"id": "it-05", "text": "Non sono sicuro che funzioni come pensi.", "expected_risk": 0.25, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "it-06", "text": "Ne abbiamo già parlato tre volte. Possiamo andare avanti?", "expected_risk": 0.35, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "it-07", "text": "Sono davvero frustrato da come sta andando, a dire il vero.", "expected_risk": 0.40, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "it-08", "text": "È una perdita di tempo. Non è cambiato niente dalla scorsa settimana.", "expected_risk": 0.55, "expected_level": "medium", "expected_tones": ["frustrated", "hostile"], "expected_intent": "critical"}
+{"id": "it-09", "text": "Come sicuramente saprai, ne abbiamo già parlato tre mesi fa.", "expected_risk": 0.60, "expected_level": "medium", "expected_tones": ["sarcastic", "hostile"], "expected_intent": "critical"}
+{"id": "it-10", "text": "Ottimo lavoro come sempre...", "expected_risk": 0.65, "expected_level": "medium", "expected_tones": ["sarcastic"], "expected_intent": "personal"}
+{"id": "it-11", "text": "Chiaramente non hai capito il problema.", "expected_risk": 0.70, "expected_level": "high", "expected_tones": ["hostile"], "expected_intent": "personal"}
+{"id": "it-12", "text": "Non mi sorprende che tu non sia riuscito a risolverlo.", "expected_risk": 0.75, "expected_level": "high", "expected_tones": ["hostile", "sarcastic"], "expected_intent": "personal"}
+{"id": "it-13", "text": "Sei completamente incompetente.", "expected_risk": 0.95, "expected_level": "critical", "expected_tones": ["hostile"], "expected_intent": "personal"}
+{"id": "it-14", "text": "Forse dovresti smettere di commentare e lasciar fare a chi ne sa qualcosa.", "expected_risk": 0.90, "expected_level": "critical", "expected_tones": ["hostile"], "expected_intent": "personal"}
+{"id": "it-15", "text": "ma stai scherzando", "expected_risk": 0.55, "expected_level": "medium", "expected_tones": ["frustrated", "sarcastic"], "expected_intent": "critical"}
+{"id": "it-16", "text": "va bene. come vuoi.", "expected_risk": 0.45, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "personal"}
+{"id": "it-17", "text": "Apprezzo molto l'impegno che ci hai messo. Ti condivido alcune idee su come possiamo migliorarlo.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "it-18", "text": "Il tuo punto sulla cache è valido, ma credo che dobbiamo rivedere l'approccio alla serializzazione.", "expected_risk": 0.15, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "constructive"}
+{"id": "it-19", "text": "La scadenza è domani e non abbiamo ancora iniziato i test di integrazione.", "expected_risk": 0.30, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "informational"}
+{"id": "it-20", "text": "ah ok", "expected_risk": 0.15, "expected_level": "none", "expected_tones": ["neutral"], "expected_intent": "informational"}
+{"id": "it-21", "text": "È la terza volta che riaprono questo bug. Qualcuno deve sistemarlo seriamente.", "expected_risk": 0.50, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "it-22", "text": "Capisco la tua frustrazione, e voglio trovare una soluzione che vada bene per tutti.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "it-23", "text": "Come già detto nella mia ultima email, come già ribadito più volte...", "expected_risk": 0.55, "expected_level": "medium", "expected_tones": ["sarcastic", "frustrated"], "expected_intent": "critical"}
+{"id": "it-24", "text": "Onestamente, non credo che questo team sia in grado di consegnare in tempo.", "expected_risk": 0.80, "expected_level": "high", "expected_tones": ["hostile", "frustrated"], "expected_intent": "personal"}
+{"id": "it-25", "text": "Possiamo provare un approccio diverso? Penso che lavorarci insieme possa aiutare.", "expected_risk": 0.05, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "it-26", "text": "Lei è pregato di rivedere la sua posizione in merito alla questione sollevata.", "expected_risk": 0.35, "expected_level": "low", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "it-27", "text": "Ma che stai a dì?", "expected_risk": 0.45, "expected_level": "medium", "expected_tones": ["sarcastic", "frustrated"], "expected_intent": "critical"}
+{"id": "it-28", "text": "Non ce la faccio più.", "expected_risk": 0.40, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "critical"}
+{"id": "it-29", "text": "Sei un grande, grazie mille per l'aiuto!", "expected_risk": 0.02, "expected_level": "none", "expected_tones": ["positive"], "expected_intent": "constructive"}
+{"id": "it-30", "text": "Che due palle questa riunione.", "expected_risk": 0.50, "expected_level": "medium", "expected_tones": ["frustrated"], "expected_intent": "personal"}
