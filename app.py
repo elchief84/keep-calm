@@ -1,3 +1,4 @@
+import contextlib
 import json
 import os
 import time
@@ -21,13 +22,17 @@ FILES = [
 def load_analyzer():
     if not all((MODELS_DIR / f).exists() for f in FILES):
         import subprocess
-        st.info("Downloading models (one-time, ~500MB) ...")
-        subprocess.run(["bash", "scripts/download_models.sh"], check=True)
+        status = st.status("Downloading models (one-time, ~500MB) ...")
+        with contextlib.suppress(subprocess.CalledProcessError):
+            subprocess.run(["bash", "scripts/download_models.sh"], check=True, capture_output=True)
+        status.update(label="Models")
     from keep_calm.analyzer import KeepCalmAnalyzer
     return KeepCalmAnalyzer()
 
 
-analyzer = load_analyzer()
+analyzer = None
+with contextlib.suppress(Exception):
+    analyzer = load_analyzer()
 
 st.set_page_config(page_title="Keep Calm", page_icon="🧘", layout="centered")
 
@@ -49,6 +54,11 @@ msg = st.text_area(
 if st.button("Analyze", type="primary", use_container_width=True):
     if not msg.strip():
         st.warning("Please enter a message.")
+    elif analyzer is None:
+        st.error(
+            "Models not found. Make sure models are on Hugging Face Hub "
+            "(`keep-calm/keep-calm-models`) or in `data/models/`."
+        )
     else:
         result = analyzer.analyze(msg)
 
