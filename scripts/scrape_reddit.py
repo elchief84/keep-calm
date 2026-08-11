@@ -8,13 +8,12 @@ Output: data/reddit_en.jsonl and data/reddit_it.jsonl
 
 from __future__ import annotations
 
+import hashlib
 import json
 import time
-import hashlib
 from pathlib import Path
 
 import requests
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 OUTPUT_EN = PROJECT_ROOT / "data" / "reddit_en.jsonl"
@@ -169,14 +168,14 @@ def main() -> None:
     print("Reddit Scraper for Keep Calm")
     print("=" * 60)
 
-    print(f"\n--- English subreddits ---")
+    print("\n--- English subreddits ---")
     en_count = scrape_subreddits(SUBREDDITS_EN, "en", OUTPUT_EN)
 
-    print(f"\n\n--- Italian subreddits ---")
+    print("\n\n--- Italian subreddits ---")
     it_count = scrape_subreddits(SUBREDDITS_IT, "it", OUTPUT_IT)
 
     print(f"\n\n{'='*60}")
-    print(f"Reddit scrape complete")
+    print("Reddit scrape complete")
     print(f"  EN: {en_count} examples -> {OUTPUT_EN}")
     print(f"  IT: {it_count} examples -> {OUTPUT_IT}")
     print(f"  Total: {en_count + it_count}")

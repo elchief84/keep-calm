@@ -17,7 +17,6 @@ from pathlib import Path
 import numpy as np
 from sklearn.model_selection import train_test_split
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 SPLITS_DIR = DATA_DIR / "splits"
@@ -112,7 +111,7 @@ def main() -> None:
 
     # Stratify by risk_level for balanced splits
     risks = np.array([ex["risk_level_idx"] for ex in examples])
-    texts = [ex["text"] for ex in examples]
+    [ex["text"] for ex in examples]
 
     # 70% train, 15% val, 15% test
     train_idx, temp_idx = train_test_split(

@@ -13,13 +13,12 @@ import time
 from pathlib import Path
 
 import numpy as np
+from scipy.stats import pearsonr
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.multioutput import MultiOutputClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error
-from scipy.stats import pearsonr
+from sklearn.multioutput import MultiOutputClassifier
 from xgboost import XGBClassifier, XGBRegressor
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SPLITS_DIR = PROJECT_ROOT / "data" / "splits"
@@ -54,7 +53,7 @@ def main() -> None:
     t0 = time.time()
     vectorizer = TfidfVectorizer(max_features=10000, ngram_range=(1, 2), min_df=2, max_df=0.9)
     X_train = vectorizer.fit_transform(train_texts)
-    X_val = vectorizer.transform(val_texts)
+    vectorizer.transform(val_texts)
     X_test = vectorizer.transform(test_texts)
     print(f"  Done in {time.time() - t0:.1f}s. Features: {X_train.shape[1]}")
 
@@ -83,7 +82,7 @@ def main() -> None:
 
     test_levels_idx = [to_level(r) for r in test_risks]
     pred_levels_idx = [to_level(p) for p in test_pred]
-    level_acc = sum(1 for a, b in zip(test_levels_idx, pred_levels_idx) if abs(a-b) <= 1) / len(test_risks)
+    level_acc = sum(1 for a, b in zip(test_levels_idx, pred_levels_idx, strict=False) if abs(a-b) <= 1) / len(test_risks)
 
     print(f"  Train MAE: {train_mae:.4f} | Test MAE: {test_mae:.4f}")
     print(f"  Pearson r: {pearson:.4f} | Level acc (+-1): {level_acc:.2%} | Time: {train_time:.1f}s")
@@ -96,10 +95,10 @@ def main() -> None:
     tone_model.fit(X_train, train_tones)
     train_time = time.time() - t0
 
-    train_tone_pred = tone_model.predict(X_train)
+    tone_model.predict(X_train)
     test_tone_pred = tone_model.predict(X_test)
 
-    print(f"  Per-label F1 (test):")
+    print("  Per-label F1 (test):")
     per_label_f1 = []
     for i, label in enumerate(TONE_LABELS):
         f1 = f1_score([t[i] for t in test_tones], [p[i] for p in test_tone_pred], zero_division=0)
@@ -108,7 +107,7 @@ def main() -> None:
         per_label_f1.append(f1)
     macro_f1 = np.mean(per_label_f1)
     print(f"  Macro F1: {macro_f1:.4f} | Time: {train_time:.1f}s")
-    results["tone"] = {"macro_f1": macro_f1, "per_label": dict(zip(TONE_LABELS, per_label_f1))}
+    results["tone"] = {"macro_f1": macro_f1, "per_label": dict(zip(TONE_LABELS, per_label_f1, strict=False))}
 
     # ---- Task 3: Intent Classification ----
     print("\n=== Task 3: Intent Classification (XGBoost) ===")

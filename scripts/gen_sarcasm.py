@@ -1,7 +1,10 @@
 """Generate English sarcasm examples for training."""
 
-import json, hashlib, time, requests
-from pathlib import Path
+import hashlib
+import json
+import time
+
+import requests
 
 API_KEY = "YOUR_OPENAI_API_KEY"
 

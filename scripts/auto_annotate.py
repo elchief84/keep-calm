@@ -18,7 +18,6 @@ from pathlib import Path
 
 import requests
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 YOUTUBE_EN = PROJECT_ROOT / "data" / "youtube_en.jsonl"
 YOUTUBE_IT = PROJECT_ROOT / "data" / "youtube_it.jsonl"

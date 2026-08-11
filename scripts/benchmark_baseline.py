@@ -11,12 +11,10 @@ from __future__ import annotations
 
 import json
 import time
-from collections.abc import Sequence
 from pathlib import Path
 
 import numpy as np
 from transformers import pipeline
-
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES_EN = PROJECT_ROOT / "data" / "examples_en.jsonl"
@@ -113,7 +111,7 @@ def benchmark_toxicity(
     )[0, 1]
     level_accuracy = correct_level / total
 
-    print(f"\n--- Results ---")
+    print("\n--- Results ---")
     print(f"Mean MAE:              {mean_mae:.3f}")
     print(f"Pearson r:             {pearson_r:.3f}")
     print(f"Level accuracy (+-1):  {level_accuracy:.1%} ({correct_level}/{total})")
@@ -122,7 +120,7 @@ def benchmark_toxicity(
 
     # Show worst offenders
     results_sorted = sorted(results, key=lambda r: r["mae"], reverse=True)
-    print(f"\n--- Top 5 worst predictions by MAE ---")
+    print("\n--- Top 5 worst predictions by MAE ---")
     for r in results_sorted[:5]:
         print(
             f"  [{r['id']}] Expected r={r['expected_risk']:.2f} ({r['expected_level']}), "
@@ -131,7 +129,7 @@ def benchmark_toxicity(
         print(f"  Text: {r['text'][:100]}")
 
     # Breakdown by expected level
-    print(f"\n--- Per-level MAE ---")
+    print("\n--- Per-level MAE ---")
     for level in ["none", "low", "medium", "high", "critical"]:
         level_results = [r for r in results if r["expected_level"] == level]
         if level_results:
@@ -170,7 +168,7 @@ def main() -> None:
               f"Level acc: {r['level_accuracy']:.1%} | "
               f"Latency: {r['mean_latency_ms']:.0f}ms")
 
-    print(f"\n--- Key questions this benchmark helps answer ---")
+    print("\n--- Key questions this benchmark helps answer ---")
     print(
         "1. Gap size: How far is an off-the-shelf toxicity model from our expected scores?"
     )

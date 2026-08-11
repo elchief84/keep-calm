@@ -18,8 +18,7 @@ import torch.nn as nn
 from scipy.stats import pearsonr
 from sklearn.metrics import accuracy_score, f1_score, mean_absolute_error
 from torch.utils.data import DataLoader, Dataset
-from transformers import AutoTokenizer, AutoModel
-
+from transformers import AutoModel, AutoTokenizer
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 SPLITS_DIR = PROJECT_ROOT / "data" / "splits"
@@ -92,7 +91,7 @@ def train_risk(data, tokenizer):
     train_ds = TextDataset(data["train"][0], [[r] for r in data["train"][1]], tokenizer)
     val_ds = TextDataset(data["val"][0], [[r] for r in data["val"][1]], tokenizer)
     train_dl = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
-    val_dl = DataLoader(val_ds, batch_size=BATCH_SIZE)
+    DataLoader(val_ds, batch_size=BATCH_SIZE)
 
     t0 = time.time()
     for epoch in range(EPOCHS):
@@ -126,7 +125,7 @@ def train_risk(data, tokenizer):
 
     mae = mean_absolute_error(test_actual, test_preds)
     r = pearsonr(test_actual, test_preds)[0]
-    level_acc = sum(1 for a, b in zip(map(to_level, test_actual), map(to_level, test_preds)) if abs(a-b) <= 1) / len(test_actual)
+    level_acc = sum(1 for a, b in zip(map(to_level, test_actual), map(to_level, test_preds), strict=False) if abs(a-b) <= 1) / len(test_actual)
 
     print(f"  Test: MAE={mae:.4f} | r={r:.4f} | LevelAcc={level_acc:.2%} | Time={train_time:.0f}s")
     return {"mae": mae, "pearson_r": r, "level_acc": level_acc, "train_time": train_time}
@@ -140,7 +139,7 @@ def train_tone(data, tokenizer):
     loss_fn = nn.BCELoss()
 
     train_ds = TextDataset(data["train"][0], data["train"][2], tokenizer)
-    val_ds = TextDataset(data["val"][0], data["val"][2], tokenizer)
+    TextDataset(data["val"][0], data["val"][2], tokenizer)
     train_dl = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
 
     t0 = time.time()
@@ -190,9 +189,9 @@ def train_intent(data, tokenizer):
     optimizer = torch.optim.AdamW(list(model.parameters()) + list(head.parameters()), lr=LR)
     loss_fn = nn.CrossEntropyLoss()
 
-    train_labels = [torch.tensor([i], dtype=torch.long) for i in data["train"][3]]
-    val_labels = [torch.tensor([i], dtype=torch.long) for i in data["val"][3]]
-    test_labels = [torch.tensor([i], dtype=torch.long) for i in data["test"][3]]
+    [torch.tensor([i], dtype=torch.long) for i in data["train"][3]]
+    [torch.tensor([i], dtype=torch.long) for i in data["val"][3]]
+    [torch.tensor([i], dtype=torch.long) for i in data["test"][3]]
 
     train_ds = TextDataset(data["train"][0], [[i] for i in data["train"][3]], tokenizer)
     train_dl = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True)
@@ -258,7 +257,7 @@ def main() -> None:
     results["intent"] = train_intent(data, tokenizer)
 
     # Latency benchmark
-    print(f"\n=== Latency Benchmark ===")
+    print("\n=== Latency Benchmark ===")
     model = AutoModel.from_pretrained(MODEL_NAME).to(DEVICE)  # Use MPS for inference
     head = nn.Sequential(nn.Linear(768, 1), nn.Sigmoid()).to(DEVICE)
     lat = benchmark_latency(model, head, tokenizer, data["test"][0])
