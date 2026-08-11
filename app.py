@@ -23,19 +23,16 @@ def load_analyzer():
     if not all((MODELS_DIR / f).exists() for f in FILES):
         st.info("Downloading models (one-time, ~500MB) ...")
         from huggingface_hub import snapshot_download
-        with contextlib.suppress(Exception):
-            snapshot_download(
-                "elchief84/keep-calm-models",
-                local_dir=str(MODELS_DIR),
-                local_dir_use_symlinks=False,
-            )
+        snapshot_download(
+            "elchief84/keep-calm-models",
+            local_dir=str(MODELS_DIR),
+        )
+        st.info(f"Downloaded. Files: {list(MODELS_DIR.iterdir())}")
     from keep_calm.analyzer import KeepCalmAnalyzer
     return KeepCalmAnalyzer()
 
 
-analyzer = None
-with contextlib.suppress(Exception):
-    analyzer = load_analyzer()
+analyzer = load_analyzer()
 
 st.set_page_config(page_title="Keep Calm", page_icon="🧘", layout="centered")
 
