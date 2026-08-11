@@ -4,6 +4,8 @@ import sys
 import time
 from pathlib import Path
 
+os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+
 sys.path.insert(0, "src")
 
 import streamlit as st
