@@ -9,12 +9,14 @@ logging.getLogger("transformers").setLevel(logging.ERROR)
 
 sys.path.insert(0, "src")
 
-import streamlit as st
+import streamlit as st  # noqa: E402
 
 MODELS_DIR = Path("data/models")
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
 os.environ.setdefault("KEEP_CALM_MODELS_DIR", str(MODELS_DIR))
+
+st.set_page_config(page_title="Keep Calm", page_icon="🧘", layout="centered")
 
 FILES = [
     "risk_encoder.pt", "risk_head.pt", "tone_encoder.pt", "tone_head.pt",
@@ -38,8 +40,6 @@ def load_analyzer():
 
 
 analyzer = load_analyzer()
-
-st.set_page_config(page_title="Keep Calm", page_icon="🧘", layout="centered")
 
 st.title("🧘 Keep Calm")
 st.caption("*Think twice. Send once.*")
