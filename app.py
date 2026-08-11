@@ -1,10 +1,11 @@
 import json
+import logging
 import os
 import sys
 import time
 from pathlib import Path
 
-os.environ["TRANSFORMERS_VERBOSITY"] = "error"
+logging.getLogger("transformers").setLevel(logging.ERROR)
 
 sys.path.insert(0, "src")
 
