@@ -57,6 +57,12 @@ training = [
 [project.scripts]
 keep-calm = "keep_calm.cli:main"
 
+[project.urls]
+Homepage = "https://github.com/elchief84/keep-calm"
+Repository = "https://github.com/elchief84/keep-calm"
+Issues = "https://github.com/elchief84/keep-calm/issues"
+"Live Demo" = "https://keep-calm-wxryt8g2gk5uexqjvsmah7.streamlit.app"
+
 [tool.setuptools.packages.find]
 where = ["src"]
 

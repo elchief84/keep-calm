@@ -54,3 +54,6 @@ htmlcov/
 
 # App feedback (anonymous, generated at runtime)
 feedback.jsonl
+
+# Build artifacts
+dist/
