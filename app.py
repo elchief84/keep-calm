@@ -18,23 +18,15 @@ os.environ.setdefault("KEEP_CALM_MODELS_DIR", str(MODELS_DIR))
 
 st.set_page_config(page_title="Keep Calm", page_icon="🧘", layout="centered")
 
-FILES = [
-    "risk_encoder.pt", "risk_head.pt", "tone_encoder.pt", "tone_head.pt",
-    "intent_encoder.pt", "intent_head.pt", "tokenizer.json",
-    "tokenizer_config.json", "config.json", "metrics.json",
-]
-
 
 @st.cache_resource
 def load_analyzer():
-    if not all((MODELS_DIR / f).exists() for f in FILES):
-        st.info("Downloading models (one-time, ~500MB) ...")
-        from huggingface_hub import snapshot_download
-        snapshot_download(
-            "elchief84/keep-calm-models",
-            local_dir=str(MODELS_DIR),
-        )
-        st.info(f"Downloaded. Files: {list(MODELS_DIR.iterdir())}")
+    from huggingface_hub import snapshot_download
+    # snapshot_download is incremental: it only fetches files that changed.
+    snapshot_download(
+        "elchief84/keep-calm-models",
+        local_dir=str(MODELS_DIR),
+    )
     from keep_calm.analyzer import KeepCalmAnalyzer
     return KeepCalmAnalyzer()
 
