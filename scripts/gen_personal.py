@@ -1,5 +1,7 @@
 """Generate explicitly personal messages — cannot be confused with critical feedback."""
-import json, hashlib, random
+import hashlib
+import json
+import random
 from pathlib import Path
 
 random.seed(42)
