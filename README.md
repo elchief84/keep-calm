@@ -9,6 +9,7 @@
 [![params ~400MB](https://img.shields.io/badge/size-~400MB-blue)](https://huggingface.co/elchief84/keep-calm-models)
 [![latency ~12ms](https://img.shields.io/badge/latency-~12ms%20CPU-brightgreen)](https://github.com/elchief84/keep-calm)
 [![risk level acc 90.6%](https://img.shields.io/badge/risk--level%20acc-90.6%25-brightgreen)](https://github.com/elchief84/keep-calm)
+[![intent acc 85.2%](https://img.shields.io/badge/intent%20acc-85.2%25-brightgreen)](https://github.com/elchief84/keep-calm)
 [![bias FP rate 15.7%](https://img.shields.io/badge/bias%20FP%20rate-15.7%25-brightgreen)](https://github.com/elchief84/keep-calm)
 
 **A privacy-first, on-device AI that analyzes your message *before* you send it — detecting tone, intent, and communication risk. You always decide. No data ever leaves your machine.**
@@ -153,8 +154,9 @@ Input Text
 | Risk | Level accuracy (±1) | **90.6%** |
 | Tone | Macro F1 | **0.677** |
 | Tone | Neutral / Frustrated / Hostile / Sarcastic / Positive | 0.862 / 0.757 / 0.541 / 0.515 / 0.710 |
-| Intent | Accuracy | **70.6%** |
-| Intent | Macro F1 | 0.508 |
+| Intent | Accuracy | **85.15%** |
+| Intent | Macro F1 | **0.8501** |
+| Intent | Constructive / Critical / Personal / Informational | 0.8155 / 0.8121 / 0.9673 / 0.8055 |
 | **Latency** | **Per message, CPU** | **12.3ms** |
 
 ### Classical baseline (TF-IDF + XGBoost)
@@ -226,10 +228,10 @@ print(result.explanation)                     # human-readable explanation
 
 ## Dataset
 
-13,329 annotated examples (English + Italian), from:
-- YouTube comments (33%)
-- GitHub issues/PRs (4%)
-- LLM-synthesized samples (63%)
+19,546 annotated examples (English + Italian), from:
+- YouTube comments (23%)
+- GitHub issues/PRs (2%)
+- LLM-synthesized samples (75%)
 
 All labeled by 3+ annotators with cultural diversity requirements. Schema follows [ARCHITECTURE.md §5](ARCHITECTURE.md#5-dataset-strategy).
 
@@ -291,7 +293,6 @@ Stated plainly:
 - **Single domain.** Training data is workplace chat only (Slack/Teams-style). Cross-domain performance (email, code review, forum) is not yet measured.
 - **Context-blind.** The model sees one message at a time with no conversation history, relationship context, or cultural cues. The recipient may perceive the message very differently.
 - **Direct communication may be penalized.** Users from direct-communication cultures (German, Dutch, Israeli) may see more flags. This is a known dataset limitation being addressed.
-- **Intent classification needs improvement.** At 70.6% accuracy and 0.508 macro F1, intent is the weakest task — particularly distinguishing critical from constructive feedback.
 
 ---
 
@@ -299,7 +300,7 @@ Stated plainly:
 
 | Version | Scope |
 |---|---|
-| **MVP** (current) | Risk + 5 tones + 4 intents + CLI + Streamlit demo. EN + IT. |
+| **MVP** (current) | Risk + 5 tones + 4 intents (85% accuracy) + CLI + Streamlit demo. EN + IT. |
 | **v1.0** | PyPI package, expanded tone labels, REST API |
 | **v1.1** | Expanded intents, second domain (email), ONNX export |
 | **v2.0** | Multi-message escalation detection, integrations |
