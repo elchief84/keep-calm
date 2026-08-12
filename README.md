@@ -220,7 +220,7 @@ print(result.explanation)                     # human-readable explanation
 
 ### Try online
 
-**[🔗 Live demo on Streamlit Cloud](https://keep-calm.streamlit.app)**
+**[🔗 Live demo on Streamlit Cloud](https://keep-calm-wxryt8g2gk5uexqjvsmah7.streamlit.app/)**
 
 ---
 
