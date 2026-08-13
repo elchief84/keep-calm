@@ -206,6 +206,22 @@ keep-calm "Your message here"
 ./keep-calm-repl.sh
 ```
 
+### REST API
+
+```bash
+pip install keep-calm[server]
+keep-calm-serve                     # -> http://127.0.0.1:8000
+```
+
+```bash
+curl localhost:8000/health          # {"status":"ok"} when the model is ready
+curl -X POST localhost:8000/analyze -H 'Content-Type: application/json' \
+     -d '{"text": "Your message here"}'
+```
+
+The server binds to `127.0.0.1` by default, loads the model once at startup,
+and never logs message content.
+
 ### Python API
 
 ```python
@@ -252,6 +268,7 @@ keep-calm/
 ├── src/keep_calm/
 │   ├── analyzer.py              # inference engine (risk, tone, intent)
 │   ├── cli.py                   # CLI entry point
+│   ├── server.py                # REST API (FastAPI)
 │   ├── schemas/                 # Pydantic models & enums
 │   ├── models/                  # model definitions
 │   └── tasks/                   # task-specific logic

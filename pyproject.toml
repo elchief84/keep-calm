@@ -53,9 +53,14 @@ training = [
     "wandb>=0.16",
     "datasets>=2.18",
 ]
+server = [
+    "fastapi>=0.110",
+    "uvicorn>=0.29",
+]
 
 [project.scripts]
 keep-calm = "keep_calm.cli:main"
+keep-calm-serve = "keep_calm.server:main"
 
 [project.urls]
 Homepage = "https://github.com/elchief84/keep-calm"
