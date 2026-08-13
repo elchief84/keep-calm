@@ -16,9 +16,8 @@ MODELS_DIR="${KEEP_CALM_MODELS_DIR:-$SCRIPT_DIR/../data/models}"
 mkdir -p "$MODELS_DIR"
 
 FILES=(
-    risk_encoder.pt risk_head.pt
-    tone_encoder.pt tone_head.pt
-    intent_encoder.pt intent_head.pt
+    multitask_encoder.pt
+    multitask_risk_head.pt multitask_tone_head.pt multitask_intent_head.pt
     tokenizer.json tokenizer_config.json
     config.json metrics.json
 )

@@ -207,46 +207,35 @@ class KeepCalmAnalyzer:
 
         self.tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME)
 
-        # Risk model
-        self.risk_encoder = AutoModel.from_pretrained(MODEL_NAME)
+        # Shared encoder (multi-task model: one encoder + three heads)
+        self.encoder = AutoModel.from_pretrained(MODEL_NAME)
         self.risk_head = nn.Sequential(
             nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 1), nn.Sigmoid()
         )
-        self.risk_encoder.load_state_dict(
-            torch.load(models_dir / "risk_encoder.pt", map_location="cpu", weights_only=True)
-        )
-        self.risk_head.load_state_dict(
-            torch.load(models_dir / "risk_head.pt", map_location="cpu", weights_only=True)
-        )
-        self.risk_encoder.eval()
-        self.risk_head.eval()
-
-        # Tone model
-        self.tone_encoder = AutoModel.from_pretrained(MODEL_NAME)
         self.tone_head = nn.Sequential(
             nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 5), nn.Sigmoid()
         )
-        self.tone_encoder.load_state_dict(
-            torch.load(models_dir / "tone_encoder.pt", map_location="cpu", weights_only=True)
-        )
-        self.tone_head.load_state_dict(
-            torch.load(models_dir / "tone_head.pt", map_location="cpu", weights_only=True)
-        )
-        self.tone_encoder.eval()
-        self.tone_head.eval()
-
-        # Intent model
-        self.intent_encoder = AutoModel.from_pretrained(MODEL_NAME)
         self.intent_head = nn.Sequential(
             nn.Linear(768, 256), nn.ReLU(), nn.Dropout(0.2), nn.Linear(256, 4)
         )
-        self.intent_encoder.load_state_dict(
-            torch.load(models_dir / "intent_encoder.pt", map_location="cpu", weights_only=True)
+
+        self.encoder.load_state_dict(
+            torch.load(models_dir / "multitask_encoder.pt", map_location="cpu", weights_only=True)
+        )
+        self.risk_head.load_state_dict(
+            torch.load(models_dir / "multitask_risk_head.pt", map_location="cpu", weights_only=True)
+        )
+        self.tone_head.load_state_dict(
+            torch.load(models_dir / "multitask_tone_head.pt", map_location="cpu", weights_only=True)
         )
         self.intent_head.load_state_dict(
-            torch.load(models_dir / "intent_head.pt", map_location="cpu", weights_only=True)
+            torch.load(
+                models_dir / "multitask_intent_head.pt", map_location="cpu", weights_only=True
+            )
         )
-        self.intent_encoder.eval()
+        self.encoder.eval()
+        self.risk_head.eval()
+        self.tone_head.eval()
         self.intent_head.eval()
 
     def analyze(self, text: str) -> AnalysisResult:
@@ -256,13 +245,12 @@ class KeepCalmAnalyzer:
         ids, mask = enc["input_ids"], enc["attention_mask"]
 
         with torch.no_grad():
-            # Risk
-            emb_risk = self.risk_encoder(ids, mask).last_hidden_state[:, 0, :]
-            risk_score = float(self.risk_head(emb_risk).squeeze().item())
+            # Single shared encoder forward pass
+            emb = self.encoder(ids, mask).last_hidden_state[:, 0, :]
 
-            # Tone
-            emb_tone = self.tone_encoder(ids, mask).last_hidden_state[:, 0, :]
-            tone_probs = self.tone_head(emb_tone).squeeze().tolist()
+            risk_score = float(self.risk_head(emb).squeeze().item())
+
+            tone_probs = self.tone_head(emb).squeeze().tolist()
             tones = [
                 ToneResult(label=Tone(label), confidence=round(conf, 4))
                 for label, conf in zip(TONE_LABELS, tone_probs, strict=True)
@@ -286,9 +274,7 @@ class KeepCalmAnalyzer:
             if top_tone == "positive" and not (tone_labels_set & negative_tones):
                 risk_score = min(risk_score, 0.35)
 
-            # Intent
-            emb_intent = self.intent_encoder(ids, mask).last_hidden_state[:, 0, :]
-            intent_logits = self.intent_head(emb_intent).squeeze()
+            intent_logits = self.intent_head(emb).squeeze()
             intent_idx = int(intent_logits.argmax().item())
             intent_conf = round(float(torch.softmax(intent_logits, dim=-1).max().item()), 4)
 

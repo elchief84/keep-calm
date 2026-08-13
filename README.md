@@ -84,20 +84,25 @@ Under the hood, Keep Calm is a text classifier — the ML approach is not novel.
 
 ## Architecture
 
-Three independent single-task models sharing a `distilbert-base-multilingual-cased` backbone:
+A single shared `distilbert-base-multilingual-cased` encoder with three task heads (multi-task model):
 
 ```
 Input Text
     │
-    ├──► [Risk Encoder] ──► [Risk Head]   ──► communication_risk (regression, 0–1)
-    ├──► [Tone Encoder] ──► [Tone Head]   ──► tones (multi-label, 5 labels)
-    └──► [Intent Encoder] ──► [Intent Head] ──► intent (multi-class, 4 labels)
-                                              │
-                                              ▼
-                              Post-processing + explanation generation
+    └──► [ Shared Encoder ]
+                 │
+                 ├──► [Risk Head]   ──► communication_risk (regression, 0–1)
+                 ├──► [Tone Head]   ──► tones (multi-label, 5 labels)
+                 └──► [Intent Head] ──► intent (multi-class, 4 labels)
+                                               │
+                                               ▼
+                               Post-processing + explanation generation
 ```
 
-**Rationale for single-task**: independent training allows debugging each task in isolation. Multi-task consolidation is planned for v1.0 if task correlation analysis and latency budget support it.
+**Multi-task rationale**: a single shared encoder (vs three independent ones) cuts the
+on-disk footprint to ~1/3 and provides positive transfer between tasks — risk, tone, and
+intent all improved when trained jointly. This is the prerequisite for a browser-sized
+model (~135MB after INT8 quantization).
 
 ---
 
@@ -145,18 +150,16 @@ Input Text
 **Test set**: 2,000 annotated examples (workplace chat domain)
 **Hardware**: Apple M1, CPU-only
 
-### DistilBERT (our model)
+### DistilBERT (our model — multi-task)
 
 | Task | Metric | Score |
 |---|---|---|
-| Risk | MAE | 0.100 |
-| Risk | Pearson r (vs mean annotator) | 0.700 |
-| Risk | Level accuracy (±1) | **90.6%** |
-| Tone | Macro F1 | **0.677** |
-| Tone | Neutral / Frustrated / Hostile / Sarcastic / Positive | 0.862 / 0.757 / 0.541 / 0.515 / 0.710 |
-| Intent | Accuracy | **85.15%** |
-| Intent | Macro F1 | **0.8501** |
-| Intent | Constructive / Critical / Personal / Informational | 0.8155 / 0.8121 / 0.9673 / 0.8055 |
+| Risk | MAE | 0.076 |
+| Risk | Pearson r (vs mean annotator) | 0.892 |
+| Tone | Macro F1 | **0.693** |
+| Tone | Neutral / Frustrated / Hostile / Sarcastic / Positive | 0.846 / 0.698 / 0.702 / 0.499 / 0.718 |
+| Intent | Accuracy | **86.14%** |
+| Intent | Macro F1 | 0.857 |
 | **Latency** | **Per message, CPU** | **12.3ms** |
 
 ### Classical baseline (TF-IDF + XGBoost)
@@ -274,9 +277,11 @@ keep-calm/
 │   └── tasks/                   # task-specific logic
 │
 ├── scripts/
-│   ├── train_and_save.py        # train + export models for inference
-│   ├── train_transformer.py     # transformer training pipeline
+│   ├── train_multitask.py       # multi-task training (shared encoder + 3 heads)
+│   ├── train_transformer.py     # single-task transformer training pipeline
 │   ├── train_baseline.py        # classical baseline
+│   ├── export_onnx.py           # export model to ONNX (WASM prerequisite)
+│   ├── quantize_onnx.py         # INT8 quantization (~135MB)
 │   ├── bias_audit.py            # 51-probe bias audit
 │   ├── download_models.sh       # download from HF Hub or GitHub Releases
 │   └── ...                      # data collection & annotation scripts
@@ -318,7 +323,7 @@ Stated plainly:
 | Version | Scope |
 |---|---|
 | **MVP** (current) | Risk + 5 tones + 4 intents (85% accuracy) + CLI + Streamlit demo. EN + IT. |
-| **v1.0.0** | REST API + ONNX export + WASM + browser extension |
+| **v1.0.0** | REST API ✅ + ONNX export ✅ + multi-task consolidation ✅ + INT8 quantization ✅ + WASM + browser extension |
 | **v1.1.0** | Expanded intents, second domain (email) |
 | **v2.0.0** | Expanded tone labels, multi-message escalation detection |
 
