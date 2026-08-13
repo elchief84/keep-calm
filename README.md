@@ -301,9 +301,9 @@ Stated plainly:
 | Version | Scope |
 |---|---|
 | **MVP** (current) | Risk + 5 tones + 4 intents (85% accuracy) + CLI + Streamlit demo. EN + IT. |
-| **v1.0** | PyPI package, expanded tone labels, REST API |
-| **v1.1** | Expanded intents, second domain (email), ONNX export |
-| **v2.0** | Multi-message escalation detection, integrations |
+| **v1.0.0** | REST API + ONNX export + WASM + browser extension |
+| **v1.1.0** | Expanded intents, second domain (email) |
+| **v2.0.0** | Expanded tone labels, multi-message escalation detection |
 
 Full roadmap in [ARCHITECTURE.md](ARCHITECTURE.md#9-roadmap).
 
