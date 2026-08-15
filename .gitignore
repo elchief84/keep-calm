@@ -29,6 +29,11 @@ models/
 *.pt
 *.bin
 *.safetensors
+*.wasm
+
+# ONNX Runtime Web bundles (downloaded by scripts/setup_extension.sh)
+extension/ort.min.mjs
+extension/ort-wasm-*
 
 # Environment
 .env

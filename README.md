@@ -286,8 +286,12 @@ keep-calm/
 │   ├── download_models.sh       # download from HF Hub or GitHub Releases
 │   └── ...                      # data collection & annotation scripts
 │
-├── tests/                       # 39 unit tests (schemas, analyzer, CLI)
-├── data/splits/                 # train / val / test (2,000 each, stratified)
+├── tests/                       # 45 unit tests (schemas, analyzer, CLI, server)
+├── wasm/                        # in-browser demo (ONNX Runtime Web)
+│   ├── index.html               # minimal UI
+│   ├── app.js                   # inference + rendering
+│   └── tokenizer.js             # WordPiece tokenizer (JS)
+├── data/splits/                 # train / val / test (stratified)
 ├── data/models/                 # (gitignored) trained model artifacts
 ├── docs/
 │   ├── annotation_guidelines.md # how to label communication risk/tone/intent
